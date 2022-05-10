@@ -92,7 +92,27 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-
+    Posts.findById(req.params.id)
+        .then(postById => {
+            if (postById) {
+                Posts.remove(req.params.id)
+                    .then(deletedRecords => {
+                        if (deletedRecords > 0) {
+                            res.status(200).json(postById);
+                        } else {
+                            res.status(500).json({ message: "The post could not be removed" });
+                        }
+                    })
+                    .catch(err => {
+                        res.status(500).json({ message: "The post could not be removed" });
+                    })
+            } else {
+                res.status(404).json({ message: "The post with the specified ID does not exist" });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: "The post could not be removed" });
+        })
 });
 
 router.get('/:id/commemts', (req, res) => {
