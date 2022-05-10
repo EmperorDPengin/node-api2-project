@@ -115,7 +115,7 @@ router.delete('/:id', (req, res) => {
         })
 });
 
-router.get('/:id/commemts', (req, res) => {
+router.get('/:id/comments', (req, res) => {
     Posts.findById(req.params.id)
         .then(postById => {
             if (postById) {
